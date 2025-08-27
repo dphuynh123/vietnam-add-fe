@@ -121,9 +121,9 @@ export default function HomePage() {
                 )}
               </div>
             )} */}
-
+            {renderHeader()}
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">Kết quả</p>
+
               <FixedSizeList
                 height={600} // Example height
                 width={'full'}  // Example width
@@ -134,12 +134,19 @@ export default function HomePage() {
                   const item = sampleData[index];
                   return (
                     <div style={style} key={item.id} className="h-100 mt-2" onClick={() => { showFullData(item) }}>
-                      <div className="p-2 rounded-md bg-muted/30 text-sm">
-                        <p className="font-bold">Tên mới</p> 
-                        <p>{item.city} - {item.province}</p>
-                        <div className="mt-2 border-t"></div>
-                        <p className="font-bold">Tên cũ</p>
-                        <p>{item.oldCity} - {item.oldProvince.slice(0, 10)} {item.oldProvince.length > 10 && <p className="text-xs">...xem thêm</p>}</p>
+                      <div className="p-2 grid grid-cols-10 rounded-md bg-muted/30 text-sm">
+                        <div className="col-span-2 ">
+                          <p>{item.city}</p>
+                        </div>
+                        <div className="col-span-2">
+                          <p>{item.province}</p>
+                        </div>
+                        <div className="col-span-2 ">
+                          <p>{item.oldCity}</p>
+                        </div>
+                        <div className="col-span-4 flex">
+                          <p>{item.oldProvince.slice(0,50)}</p>
+                        </div>
                       </div>
                     </div>
                   );
@@ -158,11 +165,47 @@ export default function HomePage() {
                 </Button>
               </div>
             </DialogHeader>
-            <div><p className="font-bold">Tên mới</p> {selectedItem?.city} - {selectedItem?.province}</div>
-            <div><p className="font-bold">Tên cũ</p> {selectedItem?.oldCity} - {selectedItem?.oldProvince}</div>
+            <div className=" grid  rounded-md bg-muted/30 text-sm ">
+              <div className="flex">
+                <p className="font-bold mr-1">Tên thành phố mới: </p><p>  {selectedItem?.city}</p>
+              </div>
+              <div className="flex mt-2">
+                <p className="font-bold mr-1">Tên phường - xã mới: </p><p> {selectedItem?.province}</p>
+              </div>
+              <div className="flex mt-2">
+                <p className="font-bold mr-1">Gộp từ thành phố cũ: </p> <p> {selectedItem?.oldCity}</p>
+              </div>
+              <div className="flex mt-2">
+                <p className="font-bold mr-1">Gộp từ phường - xã cũ: </p> <p> {selectedItem?.oldProvince}</p>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
     </main>
   )
+
+  function renderHeader() {
+    return <>
+      <p className="text-sm text-muted-foreground">Kết quả</p>
+      <div className="p-2 grid grid-cols-10 rounded-md bg-muted/30 text-sm">
+        <div className="col-span-2 ">
+          <p className="font-bold">Thành phố mới</p>
+
+        </div>
+        <div className="col-span-2">
+          <p className="font-bold">Tỉnh mới</p>
+
+        </div>
+        <div className="col-span-2 ">
+          <p className="font-bold">Tỉnh cũ</p>
+
+        </div>
+        <div className="col-span-4 ">
+          <p className="font-bold">Phường/Xã cũ</p>
+
+        </div>
+      </div>
+    </>
+  }
 }
