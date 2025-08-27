@@ -6,6 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { searchAddress } from "@/lib/api"
 import { FixedSizeList } from 'react-window';
 import debounce from "lodash.debounce";
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface SearchItem {
   id: string | number
@@ -19,6 +32,8 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<string[]>([])
   const [selectedItem, setSelectedItem] = useState<SearchItem | null>(null)
+
+  const [isShowFull, setIsShowFull] = useState(false)
 
   const [sampleData, setSampleData] = useState<SearchItem[]>([])
 
@@ -49,6 +64,11 @@ export default function HomePage() {
     setSelectedItem(item)
     // setSearchQuery(item.label)
     setSearchResults([])
+  }
+
+  const showFullData = (item: SearchItem) => {
+    setSelectedItem(item)
+    setIsShowFull(true)
   }
 
   return (
@@ -113,11 +133,13 @@ export default function HomePage() {
                 {({ index, style }) => {
                   const item = sampleData[index];
                   return (
-                    <div style={style} key={item.id} className="h-100 mt-0">
+                    <div style={style} key={item.id} className="h-100 mt-2" onClick={() => { showFullData(item) }}>
                       <div className="p-2 rounded-md bg-muted/30 text-sm">
-                        <p>Tên mới</p> {item.city} - {item.province}
-                        <div className="mt-2"></div>
-                        <p>Tên cũ</p> {item.oldCity} - {item.oldProvince.slice(0, 90)} {item.oldProvince.length > 90 && "...xem thêm"}
+                        <p className="font-bold">Tên mới</p> 
+                        <p>{item.city} - {item.province}</p>
+                        <div className="mt-2 border-t"></div>
+                        <p className="font-bold">Tên cũ</p>
+                        <p>{item.oldCity} - {item.oldProvince.slice(0, 10)} {item.oldProvince.length > 10 && <p className="text-xs">...xem thêm</p>}</p>
                       </div>
                     </div>
                   );
@@ -126,6 +148,20 @@ export default function HomePage() {
             </div>
           </CardContent>
         </Card>
+        <Dialog open={isShowFull} >
+          <DialogContent showCloseButton={false}>
+            <DialogHeader >
+              {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
+              <div className="flex flex-row-reverse">
+                <Button className="w-5 h-5" type="button" variant="secondary" onClick={() => setIsShowFull(false)}>
+                  X
+                </Button>
+              </div>
+            </DialogHeader>
+            <div><p className="font-bold">Tên mới</p> {selectedItem?.city} - {selectedItem?.province}</div>
+            <div><p className="font-bold">Tên cũ</p> {selectedItem?.oldCity} - {selectedItem?.oldProvince}</div>
+          </DialogContent>
+        </Dialog>
       </div>
     </main>
   )

@@ -1,6 +1,6 @@
 export async function searchAddress(text: string) {
   try {
-    const res = await fetch("http://ahphan.com/vietnam-addresses-api/api/v1/address/search", {
+    const res = await fetch("https://ahphan.com/vietnam-addresses-api/api/v1/address/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
