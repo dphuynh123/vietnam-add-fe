@@ -128,7 +128,7 @@ export default function HomePage() {
                 height={600} // Example height
                 width={'full'}  // Example width
                 itemCount={sampleData.length}
-                itemSize={130}
+                itemSize={100}
               >
                 {({ index, style }) => {
                   const item = sampleData[index];
@@ -145,7 +145,7 @@ export default function HomePage() {
                           <p>{item.oldCity}</p>
                         </div>
                         <div className="col-span-4 flex">
-                          <p>{item.oldProvince.slice(0,50)}</p>
+                          <p>{item.oldProvince.slice(0,50)} ... </p> 
                         </div>
                       </div>
                     </div>
