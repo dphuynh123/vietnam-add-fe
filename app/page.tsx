@@ -133,7 +133,7 @@ export default function HomePage() {
                 {({ index, style }) => {
                   const item = sampleData[index];
                   return (
-                    <div style={style} key={item.id} className="h-100 mt-2" onClick={() => { showFullData(item) }}>
+                    <div style={style} key={item.id} className="h-100 mt-2 cursor-pointer" onClick={() => { showFullData(item) }}>
                       <div className="p-2 grid grid-cols-10 rounded-md bg-muted/30 text-sm">
                         <div className="col-span-2 ">
                           <p>{item.city}</p>
